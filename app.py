@@ -88,13 +88,13 @@ h2, h3 {
 # =========================================================
 # SIDEBAR MENU
 # =========================================================
-st.sidebar.title("🧪 MENU NAVIGASI")
+st.sidebar.title("🕹️ MENU NAVIGASI")
 
 menu = st.sidebar.radio(
     "Pilih Menu",
     [
         "🏠 Beranda",
-        "🧪 Masukkan Data",
+        "📝 Masukkan Data",
         "🧮 Perhitungan pH",
         "⚗️ Campuran Larutan",
         "📘 Tentang pH"
