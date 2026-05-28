@@ -63,10 +63,6 @@ h2, h3 {
     width: 100%;
 }
 
-.sidebar .sidebar-content {
-    background-color: #d0e0ff;
-}
-
 .ph-box {
     padding: 25px;
     border-radius: 15px;
@@ -75,6 +71,7 @@ h2, h3 {
     font-size: 25px;
     font-weight: bold;
     color: #7f6000;
+    margin-top: 20px;
 }
 
 </style>
@@ -91,6 +88,7 @@ menu = st.sidebar.radio(
         "Beranda",
         "Masukkan Data",
         "Perhitungan pH",
+        "Campuran Larutan",
         "Tentang pH"
     ]
 )
@@ -100,7 +98,7 @@ menu = st.sidebar.radio(
 # ======================================================
 data_larutan = {
 
-    # ================= ASAM KUAT =================
+    # ASAM KUAT
     "HCl": ("Asam Kuat", 1),
     "HBr": ("Asam Kuat", 1),
     "HI": ("Asam Kuat", 1),
@@ -108,43 +106,33 @@ data_larutan = {
     "HClO4": ("Asam Kuat", 1),
     "H2SO4": ("Asam Kuat", 2),
 
-    # ================= ASAM LEMAH =================
+    # ASAM LEMAH
     "CH3COOH": ("Asam Lemah", 1.8e-5),
     "HF": ("Asam Lemah", 6.8e-4),
     "H2CO3": ("Asam Lemah", 4.3e-7),
     "HCN": ("Asam Lemah", 6.2e-10),
     "HCOOH": ("Asam Lemah", 1.8e-4),
     "H3PO4": ("Asam Lemah", 7.1e-3),
-    "C6H5COOH": ("Asam Lemah", 6.3e-5),
-    "H2S": ("Asam Lemah", 1.0e-7),
-    "HNO2": ("Asam Lemah", 4.5e-4),
 
-    # ================= BASA KUAT =================
+    # BASA KUAT
     "NaOH": ("Basa Kuat", 1),
     "KOH": ("Basa Kuat", 1),
     "LiOH": ("Basa Kuat", 1),
     "Ca(OH)2": ("Basa Kuat", 2),
     "Ba(OH)2": ("Basa Kuat", 2),
-    "Sr(OH)2": ("Basa Kuat", 2),
 
-    # ================= BASA LEMAH =================
+    # BASA LEMAH
     "NH3": ("Basa Lemah", 1.8e-5),
     "NH4OH": ("Basa Lemah", 1.8e-5),
     "CH3NH2": ("Basa Lemah", 4.4e-4),
-    "(CH3)2NH": ("Basa Lemah", 5.4e-4),
-    "C5H5N": ("Basa Lemah", 1.7e-9),
-    "Al(OH)3": ("Basa Lemah", 1.3e-5),
 
-    # ================= BUFFER ASAM =================
+    # BUFFER ASAM
     "CH3COOH + CH3COONa": ("Buffer Asam", 1.8e-5),
-    "H2CO3 + NaHCO3": ("Buffer Asam", 4.3e-7),
     "HF + NaF": ("Buffer Asam", 6.8e-4),
-    "HCOOH + HCOONa": ("Buffer Asam", 1.8e-4),
 
-    # ================= BUFFER BASA =================
+    # BUFFER BASA
     "NH3 + NH4Cl": ("Buffer Basa", 1.8e-5),
-    "NH4OH + NH4NO3": ("Buffer Basa", 1.8e-5),
-    "CH3NH2 + CH3NH3Cl": ("Buffer Basa", 4.4e-4)
+    "NH4OH + NH4NO3": ("Buffer Basa", 1.8e-5)
 }
 
 # ======================================================
@@ -154,25 +142,19 @@ if menu == "Beranda":
 
     st.title("🧪 KALKULATOR pH LARUTAN")
 
-    st.image(
-        "https://cdn-icons-png.flaticon.com/512/2784/2784487.png",
-        width=180
-    )
-
     st.markdown("""
     <div class='box'>
     <h2>👋 Selamat Datang</h2>
     <p>
-    Aplikasi Kalkulator pH Larutan berbasis Python dan Streamlit
-    untuk membantu menghitung pH berbagai jenis larutan secara cepat,
-    mudah, dan interaktif.
+    Aplikasi ini digunakan untuk menghitung pH berbagai jenis larutan
+    secara cepat, mudah, dan interaktif.
     </p>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
     <div class='box2'>
-    <h3>🎯 Tujuan Pembuatan Kalkulator pH</h3>
+    <h3>🎯 Tujuan Pembuatan</h3>
     <ul>
         <li>Mempermudah perhitungan pH</li>
         <li>Mengurangi kesalahan perhitungan</li>
@@ -182,21 +164,6 @@ if menu == "Beranda":
     </ul>
     </div>
     """, unsafe_allow_html=True)
-
-    st.subheader("📊 Skala pH")
-
-    st.progress(1)
-
-    col1, col2, col3 = st.columns(3)
-
-    with col1:
-        st.error("🟥 pH 0 - 6 : ASAM")
-
-    with col2:
-        st.warning("🟨 pH 7 : NETRAL")
-
-    with col3:
-        st.success("🟦 pH 8 - 14 : BASA")
 
 # ======================================================
 # MASUKKAN DATA
@@ -216,11 +183,10 @@ elif menu == "Masukkan Data":
         value=0.1
     )
 
-    if st.button("🔍 ANALISIS LARUTAN"):
+    if st.button("🔍 ANALISIS"):
 
         jenis, nilai = data_larutan[pilihan]
 
-        # ================= PERHITUNGAN =================
         if jenis == "Asam Kuat":
 
             h = konsentrasi * nilai
@@ -251,7 +217,6 @@ elif menu == "Masukkan Data":
 
             ph = 9.25
 
-        # ================= OUTPUT =================
         st.markdown(f"""
         <div class='ph-box'>
         🧪 HASIL ANALISIS
@@ -260,15 +225,9 @@ elif menu == "Masukkan Data":
         <br>
         Jenis Larutan : {jenis}
         <br>
-        pH Larutan : {round(ph,2)}
+        pH : {round(ph,2)}
         </div>
         """, unsafe_allow_html=True)
-
-        if "Asam" in jenis:
-            st.error("Larutan Bersifat Asam")
-
-        elif "Basa" in jenis:
-            st.success("Larutan Bersifat Basa")
 
 # ======================================================
 # PERHITUNGAN PH
@@ -289,88 +248,47 @@ elif menu == "Perhitungan pH":
         ]
     )
 
-    st.subheader("📌 Input Data")
-
-    ka = st.number_input("Masukkan Ka", value=0.0)
-    kb = st.number_input("Masukkan Kb", value=0.0)
-    molaritas = st.number_input("Masukkan Molaritas", value=0.1)
-    normalitas = st.number_input("Masukkan Normalitas", value=0.0)
+    molaritas = st.number_input("Molaritas", value=0.1)
+    ka = st.number_input("Ka", value=1.8e-5, format="%.10f")
+    kb = st.number_input("Kb", value=1.8e-5, format="%.10f")
 
     if st.button("🧪 HITUNG pH"):
 
-        # ================= ASAM KUAT =================
         if jenis == "Asam Kuat":
 
-            h = molaritas
-            ph = -math.log10(h)
+            ph = -math.log10(molaritas)
 
-        # ================= ASAM LEMAH =================
         elif jenis == "Asam Lemah":
-
-            if ka == 0:
-                st.error("Masukkan nilai Ka")
-                st.stop()
 
             h = math.sqrt(ka * molaritas)
             ph = -math.log10(h)
 
-        # ================= BASA KUAT =================
         elif jenis == "Basa Kuat":
 
-            oh = molaritas
-            poh = -math.log10(oh)
+            poh = -math.log10(molaritas)
             ph = 14 - poh
 
-        # ================= BASA LEMAH =================
         elif jenis == "Basa Lemah":
-
-            if kb == 0:
-                st.error("Masukkan nilai Kb")
-                st.stop()
 
             oh = math.sqrt(kb * molaritas)
             poh = -math.log10(oh)
             ph = 14 - poh
 
-        # ================= BUFFER ASAM =================
         elif jenis == "Buffer Asam":
 
-            asam = st.number_input(
-                "Konsentrasi Asam [HA]",
-                value=0.1
-            )
+            asam = st.number_input("Konsentrasi Asam", value=0.1)
+            garam = st.number_input("Konsentrasi Garam", value=0.1)
 
-            garam = st.number_input(
-                "Konsentrasi Garam [A-]",
-                value=0.1
-            )
+            pKa = -math.log10(ka)
+            ph = pKa + math.log10(garam/asam)
 
-            if ka == 0:
-                st.error("Masukkan Ka")
-                st.stop()
-
-            pka = -math.log10(ka)
-            ph = pka + math.log10(garam/asam)
-
-        # ================= BUFFER BASA =================
         elif jenis == "Buffer Basa":
 
-            basa = st.number_input(
-                "Konsentrasi Basa [B]",
-                value=0.1
-            )
+            basa = st.number_input("Konsentrasi Basa", value=0.1)
+            garam = st.number_input("Konsentrasi Garam", value=0.1)
 
-            garam = st.number_input(
-                "Konsentrasi Garam [BH+]",
-                value=0.1
-            )
-
-            if kb == 0:
-                st.error("Masukkan Kb")
-                st.stop()
-
-            pkb = -math.log10(kb)
-            poh = pkb + math.log10(garam/basa)
+            pKb = -math.log10(kb)
+            poh = pKb + math.log10(garam/basa)
             ph = 14 - poh
 
         st.markdown(f"""
@@ -379,9 +297,176 @@ elif menu == "Perhitungan pH":
         <br><br>
         Jenis Larutan : {jenis}
         <br>
-        pH Larutan : {round(ph,2)}
+        pH = {round(ph,2)}
         </div>
         """, unsafe_allow_html=True)
+
+# ======================================================
+# CAMPURAN LARUTAN
+# ======================================================
+elif menu == "Campuran Larutan":
+
+    st.title("⚗️ PERHITUNGAN CAMPURAN LARUTAN")
+
+    tipe = st.selectbox(
+        "Pilih Jenis Campuran",
+        [
+            "Asam Kuat + Basa Kuat",
+            "Asam Lemah + Basa Kuat",
+            "Basa Lemah + Asam Kuat",
+            "Garam dari Asam Lemah"
+        ]
+    )
+
+    M1 = st.number_input("Molaritas Larutan 1", value=0.1)
+    V1 = st.number_input("Volume Larutan 1 (mL)", value=50.0)
+
+    M2 = st.number_input("Molaritas Larutan 2", value=0.1)
+    V2 = st.number_input("Volume Larutan 2 (mL)", value=50.0)
+
+    Ka = st.number_input("Ka ", value=1.8e-5, format="%.10f")
+    Kb = st.number_input("Kb ", value=1.8e-5, format="%.10f")
+
+    if st.button("🧪 HITUNG CAMPURAN"):
+
+        mol1 = M1 * V1 / 1000
+        mol2 = M2 * V2 / 1000
+
+        volume_total = (V1 + V2) / 1000
+
+        # ==================================================
+        # ASAM KUAT + BASA KUAT
+        # ==================================================
+        if tipe == "Asam Kuat + Basa Kuat":
+
+            if mol1 > mol2:
+
+                sisa = mol1 - mol2
+                h = sisa / volume_total
+                ph = -math.log10(h)
+                sifat = "Asam"
+
+            elif mol2 > mol1:
+
+                sisa = mol2 - mol1
+                oh = sisa / volume_total
+                poh = -math.log10(oh)
+                ph = 14 - poh
+                sifat = "Basa"
+
+            else:
+
+                ph = 7
+                sifat = "Netral"
+
+        # ==================================================
+        # ASAM LEMAH + BASA KUAT
+        # ==================================================
+        elif tipe == "Asam Lemah + Basa Kuat":
+
+            if mol1 > mol2:
+
+                sisa_asam = mol1 - mol2
+                garam = mol2
+
+                pKa = -math.log10(Ka)
+
+                ph = pKa + math.log10(garam / sisa_asam)
+
+                sifat = "Buffer Asam"
+
+            elif mol1 == mol2:
+
+                konsentrasi = mol2 / volume_total
+
+                oh = math.sqrt((1e-14 / Ka) * konsentrasi)
+
+                poh = -math.log10(oh)
+
+                ph = 14 - poh
+
+                sifat = "Garam"
+
+            else:
+
+                sisa_oh = mol2 - mol1
+
+                oh = sisa_oh / volume_total
+
+                poh = -math.log10(oh)
+
+                ph = 14 - poh
+
+                sifat = "Basa"
+
+        # ==================================================
+        # BASA LEMAH + ASAM KUAT
+        # ==================================================
+        elif tipe == "Basa Lemah + Asam Kuat":
+
+            if mol1 > mol2:
+
+                sisa_basa = mol1 - mol2
+                garam = mol2
+
+                pKb = -math.log10(Kb)
+
+                poh = pKb + math.log10(garam / sisa_basa)
+
+                ph = 14 - poh
+
+                sifat = "Buffer Basa"
+
+            elif mol1 == mol2:
+
+                konsentrasi = mol2 / volume_total
+
+                h = math.sqrt((1e-14 / Kb) * konsentrasi)
+
+                ph = -math.log10(h)
+
+                sifat = "Garam"
+
+            else:
+
+                sisa_h = mol2 - mol1
+
+                h = sisa_h / volume_total
+
+                ph = -math.log10(h)
+
+                sifat = "Asam"
+
+        # ==================================================
+        # GARAM ASAM LEMAH
+        # ==================================================
+        elif tipe == "Garam dari Asam Lemah":
+
+            konsentrasi = mol1 / volume_total
+
+            oh = math.sqrt((1e-14 / Ka) * konsentrasi)
+
+            poh = -math.log10(oh)
+
+            ph = 14 - poh
+
+            sifat = "Basa"
+
+        st.markdown(f"""
+        <div class='ph-box'>
+        ⚗️ HASIL CAMPURAN
+        <br><br>
+        pH = {round(ph,2)}
+        <br>
+        Sifat Larutan = {sifat}
+        </div>
+        """, unsafe_allow_html=True)
+
+        st.subheader("📘 Langkah Perhitungan")
+
+        st.write(f"Mol larutan 1 = {mol1:.4f} mol")
+        st.write(f"Mol larutan 2 = {mol2:.4f} mol")
+        st.write(f"Volume total = {volume_total:.4f} L")
 
 # ======================================================
 # TENTANG PH
@@ -409,7 +494,7 @@ elif menu == "Tentang pH":
     <h3>📚 Rumus pH</h3>
 
     <b>Asam Kuat</b><br>
-    pH = -log[H⁺] = -log(C)
+    pH = -log[H⁺]
 
     <br><br>
 
@@ -419,13 +504,15 @@ elif menu == "Tentang pH":
     <br><br>
 
     <b>Basa Kuat</b><br>
-    pOH = -log[OH⁻]<br>
+    pOH = -log[OH⁻]
+    <br>
     pH = 14 - pOH
 
     <br><br>
 
     <b>Basa Lemah</b><br>
-    pOH = ½(pKb - log C)<br>
+    pOH = ½(pKb - log C)
+    <br>
     pH = 14 - pOH
 
     <br><br>
@@ -436,26 +523,11 @@ elif menu == "Tentang pH":
     <br><br>
 
     <b>Buffer Basa</b><br>
-    pOH = pKb + log([B]/[BH⁺])<br>
+    pOH = pKb + log([B]/[BH⁺])
+    <br>
     pH = 14 - pOH
 
     </div>
     """, unsafe_allow_html=True)
 
-    st.subheader("🧪 Contoh Larutan")
-
-    st.write("""
-    - Asam Kuat : HCl, HNO3, H2SO4
-    - Asam Lemah : CH3COOH, HF, HCN
-    - Basa Kuat : NaOH, KOH, Ba(OH)2
-    - Basa Lemah : NH3, NH4OH
-    - Buffer Asam : CH3COOH + CH3COONa
-    - Buffer Basa : NH3 + NH4Cl
-    """)
-
-    st.image(
-        "https://cdn-icons-png.flaticon.com/512/4341/4341139.png",
-        width=200
-    )
-
-    st.success("Aplikasi dibuat untuk membantu pembelajaran kimia khususnya materi pH larutan.")
+    st.success("Aplikasi dibuat untuk membantu pembelajaran kimia.")
