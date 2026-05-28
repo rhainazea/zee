@@ -11,75 +11,103 @@ st.set_page_config(
 )
 
 # =========================================================
-# STYLE CSS
+# BACKGROUND + CSS STYLE
 # =========================================================
 st.markdown("""
 <style>
 
-body {
-    background-color: #f0f8ff;
+.stApp {
+    background-image: url("https://images.unsplash.com/photo-1532187643603-ba119ca4109e");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-.main {
-    background: linear-gradient(to bottom, #dbeafe, #ffffff);
+/* Overlay transparan */
+.main::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.82);
+    z-index: -1;
 }
 
+/* Judul */
 h1 {
     color: #0b5394;
     text-align: center;
     font-size: 45px;
+    font-weight: bold;
 }
 
+/* Subjudul */
 h2, h3 {
     color: #134f5c;
 }
 
+/* Box hijau */
 .box {
     padding: 20px;
     border-radius: 20px;
-    background-color: #d9ead3;
+    background: rgba(217, 234, 211, 0.9);
     margin-bottom: 20px;
-    box-shadow: 2px 2px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
 }
 
+/* Box biru */
 .box2 {
     padding: 20px;
     border-radius: 20px;
-    background-color: #cfe2f3;
+    background: rgba(207, 226, 243, 0.9);
     margin-bottom: 20px;
-    box-shadow: 2px 2px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
 }
 
+/* Box kuning */
 .box3 {
     padding: 20px;
     border-radius: 20px;
-    background-color: #fce5cd;
+    background: rgba(252, 229, 205, 0.9);
     margin-bottom: 20px;
-    box-shadow: 2px 2px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
 }
 
+/* Box hasil */
 .ph-box {
     padding: 25px;
     border-radius: 20px;
-    background-color: #fff3cd;
+    background: linear-gradient(to right, #fff3cd, #ffe599);
     text-align: center;
     font-size: 26px;
     font-weight: bold;
     color: #7f6000;
     margin-top: 20px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
 }
 
+/* Tombol */
 .stButton>button {
-    background-color: #0b5394;
+    background: linear-gradient(to right, #0b5394, #3c78d8);
     color: white;
     border-radius: 15px;
     height: 50px;
     font-size: 18px;
-    width: 100%;
+    border: none;
 }
 
-.sidebar .sidebar-content {
-    background-color: #e3f2fd;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(to bottom, #dbeafe, #b6d7ff);
+}
+
+/* Input */
+.stNumberInput, .stSelectbox {
+    background-color: rgba(255,255,255,0.85);
+    border-radius: 10px;
+    padding: 5px;
 }
 
 </style>
@@ -88,13 +116,13 @@ h2, h3 {
 # =========================================================
 # SIDEBAR MENU
 # =========================================================
-st.sidebar.title("🕹️ MENU NAVIGASI")
+st.sidebar.title("🧪 MENU NAVIGASI")
 
 menu = st.sidebar.radio(
     "Pilih Menu",
     [
         "🏠 Beranda",
-        "📝 Masukkan Data",
+        "🧪 Masukkan Data",
         "🧮 Perhitungan pH",
         "⚗️ Campuran Larutan",
         "📘 Tentang pH"
@@ -159,6 +187,11 @@ if menu == "🏠 Beranda":
 
     st.title("🧪 KALKULATOR pH LARUTAN")
 
+    st.image(
+        "https://cdn-icons-png.flaticon.com/512/2784/2784487.png",
+        width=220
+    )
+
     st.markdown("""
     <div class='box'>
     <h2>👋 Selamat Datang</h2>
@@ -167,7 +200,6 @@ if menu == "🏠 Beranda":
     Aplikasi ini digunakan untuk membantu menghitung pH larutan
     secara cepat, mudah, dan interaktif.
     </p>
-
     </div>
     """, unsafe_allow_html=True)
 
@@ -221,38 +253,30 @@ elif menu == "🧪 Masukkan Data":
 
         jenis, nilai = data_larutan[pilihan]
 
-        # ================= PERHITUNGAN =================
         if jenis == "Asam Kuat":
-
             h = konsentrasi * nilai
             ph = -math.log10(h)
 
         elif jenis == "Asam Lemah":
-
             h = math.sqrt(nilai * konsentrasi)
             ph = -math.log10(h)
 
         elif jenis == "Basa Kuat":
-
             oh = konsentrasi * nilai
             poh = -math.log10(oh)
             ph = 14 - poh
 
         elif jenis == "Basa Lemah":
-
             oh = math.sqrt(nilai * konsentrasi)
             poh = -math.log10(oh)
             ph = 14 - poh
 
         elif jenis == "Buffer Asam":
-
             ph = 4.75
 
         elif jenis == "Buffer Basa":
-
             ph = 9.25
 
-        # ================= OUTPUT =================
         st.markdown(f"""
         <div class='ph-box'>
         🧪 HASIL ANALISIS
@@ -301,27 +325,22 @@ elif menu == "🧮 Perhitungan pH":
     if st.button("🧪 HITUNG pH"):
 
         if jenis == "Asam Kuat":
-
             ph = -math.log10(molaritas)
 
         elif jenis == "Asam Lemah":
-
             h = math.sqrt(ka * molaritas)
             ph = -math.log10(h)
 
         elif jenis == "Basa Kuat":
-
             poh = -math.log10(molaritas)
             ph = 14 - poh
 
         elif jenis == "Basa Lemah":
-
             oh = math.sqrt(kb * molaritas)
             poh = -math.log10(oh)
             ph = 14 - poh
 
         elif jenis == "Buffer Asam":
-
             asam = st.number_input("Konsentrasi Asam", value=0.1)
             garam = st.number_input("Konsentrasi Garam", value=0.1)
 
@@ -329,7 +348,6 @@ elif menu == "🧮 Perhitungan pH":
             ph = pKa + math.log10(garam/asam)
 
         elif jenis == "Buffer Basa":
-
             basa = st.number_input("Konsentrasi Basa", value=0.1)
             garam = st.number_input("Konsentrasi Garam", value=0.1)
 
@@ -380,18 +398,15 @@ elif menu == "⚗️ Campuran Larutan":
 
         volume_total = (V1 + V2) / 1000
 
-        # ASAM KUAT + BASA KUAT
         if tipe == "Asam Kuat + Basa Kuat":
 
             if mol1 > mol2:
-
                 sisa = mol1 - mol2
                 h = sisa / volume_total
                 ph = -math.log10(h)
                 sifat = "Asam"
 
             elif mol2 > mol1:
-
                 sisa = mol2 - mol1
                 oh = sisa / volume_total
                 poh = -math.log10(oh)
@@ -399,63 +414,45 @@ elif menu == "⚗️ Campuran Larutan":
                 sifat = "Basa"
 
             else:
-
                 ph = 7
                 sifat = "Netral"
 
-        # ASAM LEMAH + BASA KUAT
         elif tipe == "Asam Lemah + Basa Kuat":
 
             if mol1 > mol2:
-
                 sisa_asam = mol1 - mol2
                 garam = mol2
 
                 pKa = -math.log10(Ka)
-
                 ph = pKa + math.log10(garam/sisa_asam)
 
                 sifat = "Buffer Asam"
 
             else:
-
                 sisa_oh = mol2 - mol1
-
                 oh = sisa_oh / volume_total
-
                 poh = -math.log10(oh)
-
                 ph = 14 - poh
-
                 sifat = "Basa"
 
-        # BASA LEMAH + ASAM KUAT
         elif tipe == "Basa Lemah + Asam Kuat":
 
             if mol1 > mol2:
-
                 sisa_basa = mol1 - mol2
                 garam = mol2
 
                 pKb = -math.log10(Kb)
-
                 poh = pKb + math.log10(garam/sisa_basa)
 
                 ph = 14 - poh
-
                 sifat = "Buffer Basa"
 
             else:
-
                 sisa_h = mol2 - mol1
-
                 h = sisa_h / volume_total
-
                 ph = -math.log10(h)
-
                 sifat = "Asam"
 
-        # GARAM DARI ASAM LEMAH
         elif tipe == "Garam dari Asam Lemah":
 
             konsentrasi = mol1 / volume_total
@@ -465,7 +462,6 @@ elif menu == "⚗️ Campuran Larutan":
             poh = -math.log10(oh)
 
             ph = 14 - poh
-
             sifat = "Basa"
 
         st.markdown(f"""
@@ -477,8 +473,6 @@ elif menu == "⚗️ Campuran Larutan":
         Sifat Larutan = {sifat}
         </div>
         """, unsafe_allow_html=True)
-
-        st.subheader("📘 Langkah Perhitungan")
 
         st.write(f"Mol larutan 1 = {mol1:.4f} mol")
         st.write(f"Mol larutan 2 = {mol2:.4f} mol")
