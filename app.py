@@ -11,47 +11,83 @@ st.set_page_config(
 )
 
 # =========================
-# CSS CUSTOM
+# CSS WARNA & STYLE
 # =========================
 st.markdown("""
 <style>
 
-.main {
-    background-color: #f5f6fa;
+/* Background utama */
+.stApp {
+    background-color: #f4f6fb;
 }
 
-h1, h2, h3 {
-    color: #1f1f1f;
-}
-
-.stButton>button {
-    background-color: #6C63FF;
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #6C63FF, #8E7CFF);
     color: white;
-    border-radius: 10px;
-    border: none;
-    padding: 10px 20px;
 }
 
+/* Judul sidebar */
+section[data-testid="stSidebar"] h1,
+section[data-testid="stSidebar"] h2,
+section[data-testid="stSidebar"] h3,
+section[data-testid="stSidebar"] label {
+    color: white;
+}
+
+/* Card */
 .card {
     background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
     margin-bottom: 20px;
 }
 
+/* Box hasil */
 .hasil-box {
-    background-color: white;
-    padding: 30px;
-    border-radius: 15px;
+    background: linear-gradient(135deg, #ffffff, #f3f5ff);
+    padding: 35px;
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
 }
 
+/* Info box */
 .info-box {
     background-color: #eef4ff;
-    padding: 15px;
+    padding: 18px;
+    border-radius: 12px;
+    border-left: 6px solid #6C63FF;
+}
+
+/* Tombol */
+.stButton>button {
+    background: linear-gradient(90deg, #6C63FF, #8E7CFF);
+    color: white;
+    border-radius: 12px;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+/* Metric */
+[data-testid="metric-container"] {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Input */
+.stNumberInput, .stSelectbox {
+    background-color: white;
     border-radius: 10px;
+}
+
+/* Judul */
+h1 {
+    color: #2c2c2c;
 }
 
 </style>
@@ -63,7 +99,7 @@ h1, h2, h3 {
 st.sidebar.title("🧪 KALKULATOR\npH LARUTAN")
 
 menu = st.sidebar.radio(
-    "NAVIGASI",
+    "📌 NAVIGASI",
     [
         "Beranda",
         "Masukan Data",
@@ -79,26 +115,40 @@ if menu == "Beranda":
 
     st.markdown("""
     <div class='card'>
+
     <center>
-    <h1>🧪 KALKULATOR pH LARUTAN</h1>
-    <h2 style='color:#6C63FF;'>Selamat Datang</h2>
+
+    <h1 style='font-size:45px; color:#6C63FF;'>
+    🧪 KALKULATOR pH LARUTAN
+    </h1>
+
+    <h2 style='color:#444;'>
+    Selamat Datang
+    </h2>
+
     </center>
 
     <br>
 
     <p style='font-size:18px;'>
+
     Aplikasi ini dibuat untuk membantu anda dalam:
+
     </p>
 
-    <ul style='font-size:18px;'>
-        <li>Menganalisis pH larutan</li>
-        <li>Menentukan jenis larutan</li>
+    <ul style='font-size:18px; line-height:2;'>
+
+        <li>🔹 Menganalisis pH larutan</li>
+        <li>🔹 Menentukan jenis larutan</li>
+
     </ul>
 
     <br>
 
     <div class='info-box'>
-    Gunakan menu navigasi di sebelah kiri untuk memulai
+
+    📌 Gunakan menu navigasi di sebelah kiri untuk memulai.
+
     </div>
 
     </div>
@@ -109,7 +159,7 @@ if menu == "Beranda":
 # =========================
 elif menu == "Masukan Data":
 
-    st.title("Masukan Data")
+    st.title("📥 Masukan Data")
 
     jenis = st.selectbox(
         "Pilih Jenis Larutan",
@@ -125,9 +175,14 @@ elif menu == "Masukan Data":
 
     col1, col2, col3, col4 = st.columns(4)
 
+    # =====================
+    # KA
+    # =====================
     with col1:
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
+
+        st.subheader("Ka")
 
         pakai_ka = st.checkbox("Gunakan Ka")
 
@@ -139,13 +194,18 @@ elif menu == "Masukan Data":
             )
         else:
             Ka = None
-            st.write("Ka : Tidak ada")
+            st.write("Tidak ada")
 
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # =====================
+    # KB
+    # =====================
     with col2:
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
+
+        st.subheader("Kb")
 
         pakai_kb = st.checkbox("Gunakan Kb")
 
@@ -157,13 +217,18 @@ elif menu == "Masukan Data":
             )
         else:
             Kb = None
-            st.write("Kb : Tidak ada")
+            st.write("Tidak ada")
 
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # =====================
+    # MOLARITAS
+    # =====================
     with col3:
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
+
+        st.subheader("Molaritas")
 
         pakai_m = st.checkbox("Gunakan Molaritas")
 
@@ -174,13 +239,18 @@ elif menu == "Masukan Data":
             )
         else:
             M = None
-            st.write("Molaritas : Tidak ada")
+            st.write("Tidak ada")
 
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # =====================
+    # NORMALITAS
+    # =====================
     with col4:
 
         st.markdown("<div class='card'>", unsafe_allow_html=True)
+
+        st.subheader("Normalitas")
 
         pakai_n = st.checkbox("Gunakan Normalitas")
 
@@ -191,10 +261,11 @@ elif menu == "Masukan Data":
             )
         else:
             N = None
-            st.write("Normalitas : Tidak ada")
+            st.write("Tidak ada")
 
         st.markdown("</div>", unsafe_allow_html=True)
 
+    # Simpan session
     st.session_state["jenis"] = jenis
     st.session_state["Ka"] = Ka
     st.session_state["Kb"] = Kb
@@ -208,7 +279,7 @@ elif menu == "Masukan Data":
 # =========================
 elif menu == "Hasil pH":
 
-    st.title("Hasil Perhitungan pH")
+    st.title("📊 Hasil Perhitungan pH")
 
     jenis = st.session_state.get("jenis")
     Ka = st.session_state.get("Ka")
@@ -222,9 +293,9 @@ elif menu == "Hasil pH":
 
     else:
 
-        ph = None
-
         try:
+
+            ph = 0
 
             # =====================
             # ASAM KUAT
@@ -265,28 +336,41 @@ elif menu == "Hasil pH":
             # =====================
             elif jenis == "Buffer Asam":
 
-                pKa = -math.log10(Ka)
-                ph = pKa
+                ph = -math.log10(Ka)
 
             # =====================
             # BUFFER BASA
             # =====================
             elif jenis == "Buffer Basa":
 
-                pKb = -math.log10(Kb)
-                ph = 14 - pKb
+                ph = 14 + math.log10(Kb)
 
             # =====================
-            # TAMPILAN HASIL
+            # WARNA HASIL
             # =====================
+            if ph < 7:
+                sifat = "ASAM"
+                warna = "#ff4b4b"
 
-            col1, col2 = st.columns([1,1])
+            elif ph > 7:
+                sifat = "BASA"
+                warna = "#00b894"
 
+            else:
+                sifat = "NETRAL"
+                warna = "#0984e3"
+
+            col1, col2 = st.columns(2)
+
+            # =====================
+            # RINGKASAN
+            # =====================
             with col1:
 
                 st.markdown(f"""
                 <div class='card'>
-                <h3>Ringkasan Input</h3>
+
+                <h3>📋 Ringkasan Input</h3>
 
                 <p><b>Jenis Larutan :</b> {jenis}</p>
                 <p><b>Ka :</b> {Ka}</p>
@@ -297,99 +381,84 @@ elif menu == "Hasil pH":
                 </div>
                 """, unsafe_allow_html=True)
 
+            # =====================
+            # HASIL
+            # =====================
             with col2:
-
-                sifat = ""
-                warna = ""
-
-                if ph < 7:
-                    sifat = "ASAM"
-                    warna = "red"
-
-                elif ph > 7:
-                    sifat = "BASA"
-                    warna = "green"
-
-                else:
-                    sifat = "NETRAL"
-                    warna = "blue"
 
                 st.markdown(f"""
                 <div class='hasil-box'>
 
                 <h2>Nilai pH</h2>
 
-                <h1 style='font-size:60px; color:{warna};'>
+                <h1 style='font-size:70px; color:{warna};'>
                 {round(ph,2)}
                 </h1>
 
-                <h3>
-                Larutan bersifat 
-                <span style='color:{warna};'>{sifat}</span>
-                </h3>
+                <h2>
+                Larutan Bersifat
+                <span style='color:{warna};'>
+                {sifat}
+                </span>
+                </h2>
 
                 </div>
                 """, unsafe_allow_html=True)
 
             st.markdown(f"""
             <div class='info-box'>
-            <h4>Perhitungan ({jenis})</h4>
 
-            <p>Nilai pH berhasil dihitung menggunakan rumus yang sesuai.</p>
+            💡 Perhitungan pH berhasil dilakukan menggunakan rumus {jenis}.
+
             </div>
             """, unsafe_allow_html=True)
 
         except:
 
-            st.error("Terjadi kesalahan perhitungan")
+            st.error("❌ Terjadi kesalahan perhitungan")
 
 # =========================
 # TENTANG pH
 # =========================
 elif menu == "Tentang pH":
 
-    st.title("Tentang pH")
+    st.title("📘 Tentang pH")
 
     st.markdown("""
     <div class='card'>
 
     <h2 style='color:#6C63FF;'>Pengertian pH</h2>
 
-    <p>
+    <p style='font-size:18px;'>
     pH adalah ukuran derajat keasaman atau kebasaan suatu larutan.
     </p>
 
     <br>
 
-    <h3>Nilai pH</h3>
+    <h3 style='color:#6C63FF;'>Klasifikasi pH</h3>
 
-    <ul>
-        <li>pH < 7 → Bersifat asam</li>
-        <li>pH = 7 → Netral</li>
-        <li>pH > 7 → Bersifat basa</li>
+    <ul style='line-height:2; font-size:18px;'>
+
+        <li>🔴 pH &lt; 7 → Asam</li>
+        <li>🔵 pH = 7 → Netral</li>
+        <li>🟢 pH &gt; 7 → Basa</li>
+
     </ul>
 
     <br>
 
-    <h2 style='color:#6C63FF;'>Jenis Larutan</h2>
+    <h3 style='color:#6C63FF;'>Jenis Larutan</h3>
 
-    <h4>1. Asam Kuat</h4>
-    <p>Asam yang terionisasi sempurna.</p>
+    <ul style='line-height:2; font-size:18px;'>
 
-    <h4>2. Asam Lemah</h4>
-    <p>Asam yang terionisasi sebagian.</p>
+        <li>Asam Kuat</li>
+        <li>Asam Lemah</li>
+        <li>Basa Kuat</li>
+        <li>Basa Lemah</li>
+        <li>Buffer Asam</li>
+        <li>Buffer Basa</li>
 
-    <h4>3. Basa Kuat</h4>
-    <p>Basa yang terionisasi sempurna.</p>
-
-    <h4>4. Basa Lemah</h4>
-    <p>Basa yang terionisasi sebagian.</p>
-
-    <h4>5. Buffer Asam</h4>
-    <p>Larutan penyangga dengan pH asam.</p>
-
-    <h4>6. Buffer Basa</h4>
-    <p>Larutan penyangga dengan pH basa.</p>
+    </ul>
 
     </div>
     """, unsafe_allow_html=True)
