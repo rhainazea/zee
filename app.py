@@ -1,8 +1,9 @@
-```python
 import streamlit as st
 import math
 
-# Konfigurasi halaman
+# =========================
+# KONFIGURASI HALAMAN
+# =========================
 st.set_page_config(
     page_title="Kalkulator pH Larutan",
     page_icon="🧪",
@@ -10,7 +11,7 @@ st.set_page_config(
 )
 
 # =========================
-# SIDEBAR NAVIGASI
+# SIDEBAR
 # =========================
 menu = st.sidebar.radio(
     "📌 Navigasi",
@@ -24,7 +25,7 @@ if menu == "Beranda":
 
     st.title("🧪 KALKULATOR pH LARUTAN")
 
-    st.write("### Selamat Datang")
+    st.subheader("Selamat Datang")
 
     st.write("""
     Aplikasi ini dibuat untuk membantu anda dalam:
@@ -56,41 +57,57 @@ elif menu == "Masukan Data":
 
     st.subheader("Input Parameter")
 
-    # Opsi input
-    opsi_ka = st.checkbox("Gunakan Ka")
-    opsi_kb = st.checkbox("Gunakan Kb")
-    opsi_m = st.checkbox("Gunakan Molaritas")
-    opsi_n = st.checkbox("Gunakan Normalitas")
+    # Input Ka
+    pakai_ka = st.checkbox("Gunakan Ka")
 
-    Ka = None
-    Kb = None
-    M = None
-    N = None
-
-    if opsi_ka:
-        Ka = st.number_input("Masukkan Ka", min_value=0.0, format="%e")
-
+    if pakai_ka:
+        Ka = st.number_input(
+            "Masukkan Ka",
+            min_value=0.0,
+            format="%e"
+        )
     else:
+        Ka = None
         st.write("Ka : Tidak ada")
 
-    if opsi_kb:
-        Kb = st.number_input("Masukkan Kb", min_value=0.0, format="%e")
+    # Input Kb
+    pakai_kb = st.checkbox("Gunakan Kb")
 
+    if pakai_kb:
+        Kb = st.number_input(
+            "Masukkan Kb",
+            min_value=0.0,
+            format="%e"
+        )
     else:
+        Kb = None
         st.write("Kb : Tidak ada")
 
-    if opsi_m:
-        M = st.number_input("Masukkan Molaritas (M)", min_value=0.0)
+    # Input Molaritas
+    pakai_m = st.checkbox("Gunakan Molaritas")
 
+    if pakai_m:
+        M = st.number_input(
+            "Masukkan Molaritas (M)",
+            min_value=0.0
+        )
     else:
+        M = None
         st.write("Molaritas : Tidak ada")
 
-    if opsi_n:
-        N = st.number_input("Masukkan Normalitas (N)", min_value=0.0)
+    # Input Normalitas
+    pakai_n = st.checkbox("Gunakan Normalitas")
 
+    if pakai_n:
+        N = st.number_input(
+            "Masukkan Normalitas (N)",
+            min_value=0.0
+        )
     else:
+        N = None
         st.write("Normalitas : Tidak ada")
 
+    # Simpan data
     st.session_state["jenis"] = jenis
     st.session_state["Ka"] = Ka
     st.session_state["Kb"] = Kb
@@ -106,14 +123,14 @@ elif menu == "Hasil pH":
 
     st.title("📊 Hasil Perhitungan pH")
 
-    jenis = st.session_state.get("jenis", None)
-    Ka = st.session_state.get("Ka", None)
-    Kb = st.session_state.get("Kb", None)
-    M = st.session_state.get("M", None)
-    N = st.session_state.get("N", None)
+    jenis = st.session_state.get("jenis")
+    Ka = st.session_state.get("Ka")
+    Kb = st.session_state.get("Kb")
+    M = st.session_state.get("M")
+    N = st.session_state.get("N")
 
     if jenis is None:
-        st.warning("Silakan isi data terlebih dahulu pada menu 'Masukan Data'")
+        st.warning("Silakan isi data terlebih dahulu")
     else:
 
         ph = None
@@ -125,12 +142,15 @@ elif menu == "Hasil pH":
             # =====================
             if jenis == "Asam Kuat":
 
-                if M:
+                if M is not None and M > 0:
                     H = M
-                elif N:
+
+                elif N is not None and N > 0:
                     H = N
+
                 else:
-                    H = 0
+                    st.error("Masukkan Molaritas atau Normalitas")
+                    st.stop()
 
                 ph = -math.log10(H)
 
@@ -143,20 +163,27 @@ elif menu == "Hasil pH":
                     H = math.sqrt(Ka * M)
                     ph = -math.log10(H)
 
+                else:
+                    st.error("Masukkan Ka dan Molaritas")
+                    st.stop()
+
             # =====================
             # BASA KUAT
             # =====================
             elif jenis == "Basa Kuat":
 
-                if M:
+                if M is not None and M > 0:
                     OH = M
-                elif N:
-                    OH = N
-                else:
-                    OH = 0
 
-                poh = -math.log10(OH)
-                ph = 14 - poh
+                elif N is not None and N > 0:
+                    OH = N
+
+                else:
+                    st.error("Masukkan Molaritas atau Normalitas")
+                    st.stop()
+
+                pOH = -math.log10(OH)
+                ph = 14 - pOH
 
             # =====================
             # BASA LEMAH
@@ -165,50 +192,58 @@ elif menu == "Hasil pH":
 
                 if Kb and M:
                     OH = math.sqrt(Kb * M)
-                    poh = -math.log10(OH)
-                    ph = 14 - poh
+                    pOH = -math.log10(OH)
+                    ph = 14 - pOH
+
+                else:
+                    st.error("Masukkan Kb dan Molaritas")
+                    st.stop()
 
             # =====================
             # BUFFER ASAM
             # =====================
             elif jenis == "Buffer Asam":
 
-                if Ka and M:
+                if Ka:
                     pKa = -math.log10(Ka)
                     ph = pKa
+
+                else:
+                    st.error("Masukkan Ka")
+                    st.stop()
 
             # =====================
             # BUFFER BASA
             # =====================
             elif jenis == "Buffer Basa":
 
-                if Kb and M:
+                if Kb:
                     pKb = -math.log10(Kb)
-                    poh = pKb
-                    ph = 14 - poh
+                    pOH = pKb
+                    ph = 14 - pOH
+
+                else:
+                    st.error("Masukkan Kb")
+                    st.stop()
 
             # =====================
             # OUTPUT
             # =====================
-            if ph is not None:
+            st.success(f"Jenis Larutan : {jenis}")
 
-                st.success(f"Jenis Larutan : {jenis}")
-                st.info(f"Nilai pH = {round(ph, 2)}")
+            st.metric("Nilai pH", round(ph, 2))
 
-                if ph < 7:
-                    st.write("Larutan bersifat ASAM")
+            if ph < 7:
+                st.error("Larutan bersifat ASAM")
 
-                elif ph > 7:
-                    st.write("Larutan bersifat BASA")
-
-                else:
-                    st.write("Larutan bersifat NETRAL")
+            elif ph > 7:
+                st.success("Larutan bersifat BASA")
 
             else:
-                st.error("Data belum lengkap untuk perhitungan")
+                st.info("Larutan bersifat NETRAL")
 
         except:
-            st.error("Terjadi kesalahan dalam perhitungan")
+            st.error("Terjadi kesalahan pada perhitungan")
 
 # =========================
 # TENTANG pH
@@ -222,44 +257,45 @@ elif menu == "Tentang pH":
     
     pH adalah ukuran derajat keasaman atau kebasaan suatu larutan.
     
-    Nilai pH berkisar antara:
+    ### Klasifikasi pH
     
-    • pH < 7  → Bersifat asam  
+    • pH < 7  → Asam  
     • pH = 7  → Netral  
-    • pH > 7  → Bersifat basa  
+    • pH > 7  → Basa  
+    
+    ---
     
     ### Jenis Larutan
     
     #### 1. Asam Kuat
-    Asam yang terionisasi sempurna dalam air.
+    Terionisasi sempurna dalam air.
     
     Contoh:
-    • HCl  
-    • HNO3  
+    - HCl
+    - HNO3
     
     #### 2. Asam Lemah
-    Asam yang terionisasi sebagian dalam air.
+    Terionisasi sebagian.
     
     Contoh:
-    • CH3COOH  
+    - CH3COOH
     
     #### 3. Basa Kuat
-    Basa yang terionisasi sempurna.
+    Terionisasi sempurna.
     
     Contoh:
-    • NaOH  
-    • KOH  
+    - NaOH
+    - KOH
     
     #### 4. Basa Lemah
-    Basa yang terionisasi sebagian.
+    Terionisasi sebagian.
     
     Contoh:
-    • NH4OH  
+    - NH4OH
     
     #### 5. Buffer Asam
-    Larutan yang mempertahankan pH asam.
+    Larutan penyangga dengan pH asam.
     
     #### 6. Buffer Basa
-    Larutan yang mempertahankan pH basa.
+    Larutan penyangga dengan pH basa.
     """)
-```
