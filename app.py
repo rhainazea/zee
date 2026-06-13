@@ -493,8 +493,6 @@ elif menu == "📘 Tentang pH":
     st.markdown("""
     <div class='box'>
     <h3>Pengertian pH</h3>
-
-    <p>
     pH larutan adalah ukuran yang digunakan untuk menyatakan
     tingkat keasaman atau kebasaan suatu larutan.
     Nilai pH menunjukkan banyaknya konsentrasi ion hidrogen (H⁺)
@@ -504,10 +502,6 @@ pH = -log₁₀[H⁺]
 Pada suhu 25°C, hubungan antara pH dan pOH dinyatakan oleh persamaan:
 pH + pOH = 14    (pKw = 14 pada 25°C)
 Nilai Kw (konstanta autoionisasi air) pada suhu 25°C adalah 1.0 × 10⁻¹⁴, sehingga pada larutan netral, [H⁺] = [OH⁻] = 1.0 × 10⁻⁷ M dan pH = 7.
-
-    </p>
-
-    </div>
     """, unsafe_allow_html=True)
 
     st.markdown("""
