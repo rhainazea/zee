@@ -507,7 +507,7 @@ Nilai Kw (konstanta autoionisasi air) pada suhu 25°C adalah 1.0 × 10⁻¹⁴, 
     st.markdown("""
     <div class='box2'>
 
-        <h3>📚 Rumus pH</h3>
+    <h3>📚 Rumus pH</h3>
 
     <b>Asam Kuat</b><br>
     pH = -log[H⁺]
