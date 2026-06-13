@@ -507,23 +507,41 @@ Nilai Kw (konstanta autoionisasi air) pada suhu 25°C adalah 1.0 × 10⁻¹⁴, 
     st.markdown("""
     <div class='box2'>
 
-    <h3>📚 Rumus pH</h3>
+        <h3>📚 Rumus pH</h3>
 
     <b>Asam Kuat</b><br>
     pH = -log[H⁺]
+
+    <br><br>
+
     <b>Asam Lemah</b><br>
     pH = ½(pKa - log C)
-    <b>Basa Kuat</b><br>
+
+    <br><br>
+
+  <b>Basa Kuat</b><br>
     pOH = -log[OH⁻]
+    <br>
     pH = 14 - pOH
+
+    <br><br>
+
     <b>Basa Lemah</b><br>
     pOH = ½(pKb - log C)
+    <br>
     pH = 14 - pOH
+
+    <br><br>
+
     <b>Buffer Asam</b><br>
     pH = pKa + log([A⁻]/[HA])
+    <br><br>
+
     <b>Buffer Basa</b><br>
     pOH = pKb + log([B]/[BH⁺])
+    <br>
     pH = 14 - pOH
-    """, unsafe_allow_html=True)
 
+    </div>
+    """, unsafe_allow_html=True)
     st.success("🧪 Aplikasi dibuat untuk membantu pembelajaran kimia.")
