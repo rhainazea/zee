@@ -17,7 +17,12 @@ st.markdown("""
 <style>
 
 .stApp {
-    background-image: url("https://images.unsplash.com/photo-1532187643603-ba119ca4109e");
+    background-image: linear-gradient(
+        rgba(255,255,255,0.92),
+        rgba(255,255,255,0.92)
+    ),
+    url("https://images.unsplash.com/photo-1532187643603-ba119ca4109e");
+
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -493,7 +498,13 @@ elif menu == "📘 Tentang pH":
     pH larutan adalah ukuran yang digunakan untuk menyatakan
     tingkat keasaman atau kebasaan suatu larutan.
     Nilai pH menunjukkan banyaknya konsentrasi ion hidrogen (H⁺)
-    di dalam larutan.
+    di dalam larutan. 
+    pH didefinisikan oleh Sørensen pada tahun 1909 sebagai logaritma negatif dari aktivitas ion hidrogen dalam larutan. Secara matematis, pH dinyatakan sebagai:
+pH = -log₁₀[H⁺]
+Pada suhu 25°C, hubungan antara pH dan pOH dinyatakan oleh persamaan:
+pH + pOH = 14    (pKw = 14 pada 25°C)
+Nilai Kw (konstanta autoionisasi air) pada suhu 25°C adalah 1.0 × 10⁻¹⁴, sehingga pada larutan netral, [H⁺] = [OH⁻] = 1.0 × 10⁻⁷ M dan pH = 7.
+
     </p>
 
     </div>
